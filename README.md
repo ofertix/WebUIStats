@@ -3,6 +3,13 @@ What is "WebUIStats"?
 WebUIStats is the component that generates web UI interface with charts from your stats.
 
 
+Screenshots
+============
+![Example 1](https://github.com/ofertix/WebUIStats/raw/master/doc/resources/stats1.png "Example 1")
+
+![Example2](https://github.com/ofertix/WebUIStats/raw/master/doc/resources/stats2.png "Example2")
+
+
 Requirements
 ============
 - PHP 5.3.2 and up.
