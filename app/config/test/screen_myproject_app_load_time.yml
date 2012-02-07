@@ -1,0 +1,65 @@
+charts:
+  chart1:
+    title: 'App request time 7 days'
+    options:
+      xAxis:
+        maxZoom: 3600000 # 1h
+      tooltip:
+        yDecimals: 2
+      plotOptions:
+        series:
+          stacking: "normal"
+
+    series:
+      serie1:
+        title: 'foo time (s)'
+        url: 'http://localhost/collector/web/stats_events/foo_app_time_foo_60s_7d/median/2'
+        type: 'area'
+      serie2:
+        title: 'catalog time (s)'
+        url: 'http://localhost/collector/web/stats_events/app_time_catalog_60s_7d/median/2'
+        type: 'area'
+      serie3:
+        title: 'product time (s)'
+        url: 'http://localhost/collector/web/stats_events/app_time_product_60s_7d/median/2'
+        type: 'area'
+      serie4:
+        title: 'add cart time (s)'
+        url: 'http://localhost/collector/web/stats_events/app_time_add_cart_60s_7d/median/2'
+        type: 'area'
+    interval: 120
+  chart2:
+    title: 'App request time 1 year'
+    options:
+      xAxis:
+        maxZoom: 86400000 # 24h
+      tooltip:
+        yDecimals: 2
+      plotOptions:
+        series:
+          stacking: "normal"
+    series:
+      serie1:
+        title: 'foo time (s)'
+        url: 'http://localhost/collector/web/stats_events/foo_app_time_foo_1h_365d/percentile_95/2'
+        type: 'area'
+      serie2:
+        title: 'catalog time (s)'
+        url: 'http://localhost/collector/web/stats_events/app_time_catalog_1h_365d/percentile_95/2'
+        type: 'area'
+      serie3:
+        title: 'product time (s)'
+        url: 'http://localhost/collector/web/stats_events/app_time_product_1h_365d/percentile_95/2'
+        type: 'area'
+      serie4:
+        title: 'add cart time (s)'
+        url: 'http://localhost/collector/web/stats_events/app_time_add_cart_1h_365d/percentile_95/2'
+        type: 'area'
+    interval: 1800
+
+display:
+  title: 'App request time'
+  template: tpl_1_1
+  charts:
+    - chart1
+    - chart2

@@ -1,0 +1,7 @@
+.idea
+.DS_Store
+web/app
+web/app.js
+web/index.html
+web/js
+

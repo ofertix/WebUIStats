@@ -1,0 +1,15 @@
+[submodule "src/WebUIStats/vendor/pimple"]
+	path = src/WebUIStats/vendor/pimple
+	url = https://github.com/fabpot/Pimple
+[submodule "src/WebUIStats/vendor/Symfony/Component/Yaml"]
+	path = src/WebUIStats/vendor/Symfony/Component/Yaml
+	url = https://github.com/symfony/Yaml.git
+[submodule "src/WebUIStats/vendor/Symfony/Component/ClassLoader"]
+	path = src/WebUIStats/vendor/Symfony/Component/ClassLoader
+	url = https://github.com/symfony/ClassLoader.git
+[submodule "src/WebUIStats/vendor/Symfony/Component/Console"]
+	path = src/WebUIStats/vendor/Symfony/Component/Console
+	url = https://github.com/symfony/Console.git
+[submodule "src/WebUIStats/vendor/monolog"]
+	path = src/WebUIStats/vendor/monolog
+	url = https://github.com/Seldaek/monolog.git

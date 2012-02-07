@@ -1,0 +1,32 @@
+output_path: '../../../web'
+title: 'MyWeb Stats'
+menu:
+  menu1:
+    title: 'MyWeb App'
+    items:
+      item1:
+        title: 'Logins/Cart/Purchases'
+        screen: screen_myproject_app
+      item2:
+        title: 'Errors'
+        screen: screen_myproject_errors
+      item3:
+        title: 'Sentinel'
+        screen: screen_myproject_sentinel
+      item4:
+        title: 'Request time'
+        screen: screen_myproject_app_load_time
+
+charts:
+  default:
+    options:
+      credits:
+        enabled: false
+      rangeSelector:
+        enabled: false
+      scrollbar:
+        enabled: false
+      navigator:
+        enabled: true
+      tooltip:
+        yDecimals: 0

@@ -1,0 +1,29 @@
+charts:
+  chart1:
+    title: 'Errors 404 1 day'
+    options:
+      xAxis:
+        maxZoom: 3600000 # 1h
+    series:
+      serie1:
+        title: 'Errors 404'
+        url: 'http://localhost/collector/web/stats_events/404_1m_1d'
+    interval: 10
+  chart2:
+    title: 'Errors 404 15 days'
+    navigator: true
+    options:
+      xAxis:
+        maxZoom: 86400000 # 24h
+    series:
+      serie1:
+        title: 'Errors 404'
+        url: 'http://localhost/collector/web/stats_events/404_1h_15d'
+
+display:
+  title: 'Errors 404'
+  template: tpl_1_1
+  charts:
+    - chart1
+    - chart2
+
