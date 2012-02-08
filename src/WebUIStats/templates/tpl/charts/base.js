@@ -29,9 +29,7 @@ Ext.define('{$define}', {
                             this.pointsToAdd = new Array();
                             this.lastTs = new Array();
 
-                            {
-                                $series_data
-                            }
+                            {$series_data}
 
                             var taskAddPointsAndRedraw = {
                                 run:function () {
@@ -66,9 +64,7 @@ Ext.define('{$define}', {
                     }
                 },
 
-            {
-                $options
-            }
+                {$options}
 
             series : [
                 {$series_config}
