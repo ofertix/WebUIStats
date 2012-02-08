@@ -7,7 +7,7 @@ charts:
     series:
       serie1:
         title: 'login'
-        url: 'http://localhost/collector/web/stats_events/login_1m_1d'
+        url: 'http://localhost/Collector/web/stats_events/login_1m_1d'
     interval: 5
   chart2:
     title: 'Cart/Purchases'
@@ -17,10 +17,10 @@ charts:
     series:
       serie1:
         title: 'add cart'
-        url: 'http://localhost/collector/web/stats_events/add_cart_1m_1d'
+        url: 'http://localhost/Collector/web/stats_events/add_cart_1m_1d'
       serie2:
         title: 'purchase'
-        url: 'http://localhost/collector/web/stats_events/purchase_1m_1d'
+        url: 'http://localhost/Collector/web/stats_events/purchase_1m_1d'
     interval: 30
   chart3:
     title: 'Logins 15 days'
@@ -30,7 +30,7 @@ charts:
     series:
       serie1:
         title: 'login'
-        url: 'http://localhost/collector/web/stats_events/login_1h_15d'
+        url: 'http://localhost/Collector/web/stats_events/login_1h_15d'
     interval: 1800
   chart4:
     title: 'Cart/Purchases'
@@ -40,10 +40,10 @@ charts:
     series:
       serie1:
         title: 'add cart'
-        url: 'http://localhost/collector/web/stats_events/add_cart_1h_15d'
+        url: 'http://localhost/Collector/web/stats_events/add_cart_1h_15d'
       serie2:
         title: 'purchase'
-        url: 'http://localhost/collector/web/stats_events/purchase_1h_15d'
+        url: 'http://localhost/Collector/web/stats_events/purchase_1h_15d'
     interval: 1800
 
 display:

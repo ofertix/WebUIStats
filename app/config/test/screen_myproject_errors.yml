@@ -7,7 +7,7 @@ charts:
     series:
       serie1:
         title: 'Errors 404'
-        url: 'http://localhost/collector/web/stats_events/404_1m_1d'
+        url: 'http://localhost/Collector/web/stats_events/404_1m_1d'
     interval: 10
   chart2:
     title: 'Errors 404 15 days'
@@ -18,7 +18,7 @@ charts:
     series:
       serie1:
         title: 'Errors 404'
-        url: 'http://localhost/collector/web/stats_events/404_1h_15d'
+        url: 'http://localhost/Collector/web/stats_events/404_1h_15d'
 
 display:
   title: 'Errors 404'

@@ -9,10 +9,10 @@ charts:
     series:
       serie1:
         title: 'myweb average time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_myweb_60s_7d/median/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_myweb_60s_7d/median/2/0'
       serie2:
         title: 'google average time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_google_60s_7d/median/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_google_60s_7d/median/2/0'
     interval: 10
   chart2:
     title: 'Sentinel 1 year'
@@ -24,28 +24,28 @@ charts:
     series:
       serie1:
         title: 'myweb average time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_myweb_1h_365d/median/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_myweb_1h_365d/median/2/0'
       serie2:
         title: 'myweb min time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_myweb_1h_365d/min/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_myweb_1h_365d/min/2/0'
       serie3:
         title: 'myweb max time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_myweb_1h_365d/max/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_myweb_1h_365d/max/2/0'
       serie4:
         title: 'myweb per95 time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_myweb_1h_365d/percentile_95/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_myweb_1h_365d/percentile_95/2/0'
       serie11:
         title: 'google average time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_google_1h_365d/median/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_google_1h_365d/median/2/0'
       serie22:
         title: 'google min time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_google_1h_365d/min/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_google_1h_365d/min/2/0'
       serie33:
         title: 'google max time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_google_1h_365d/max/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_google_1h_365d/max/2/0'
       serie44:
         title: 'google per95 time (s)'
-        url: 'http://localhost/collector/web/stats_events/sys_myweb_sentinel_google_1h_365d/percentile_95/2/0'
+        url: 'http://localhost/Collector/web/stats_events/sys_myweb_sentinel_google_1h_365d/percentile_95/2/0'
     interval: 1800
 
 display:
