@@ -42,6 +42,7 @@ Ext.define('{$define}', {
                                         var serie_num = item.serie_num;
                                         var points = item.points;
                                         for (var j in points) {
+                                            if(this.series[serie_num].data.length) this.series[serie_num].data[0].remove(false);
                                             this.series[serie_num].addPoint(points[j], false, false);
                                         }
                                     }
