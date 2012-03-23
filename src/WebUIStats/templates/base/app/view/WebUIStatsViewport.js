@@ -14,5 +14,13 @@ Ext.define('WebUIStatsApp.view.WebUIStatsViewport', {
     initComponent:function () {
         var me = this;
         me.callParent(arguments);
+
+        // load screen if it is set on hash
+        var jash = window.location.hash;
+        var jashs = jash.split('#');
+        for (var i in jashs)
+        {
+            if(jashs[i] != '') eval('me.' + jashs[i] + '(false);');
+        }
     }
 });

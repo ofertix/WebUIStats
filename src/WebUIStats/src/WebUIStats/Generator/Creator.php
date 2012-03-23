@@ -74,22 +74,33 @@ class Creator
         // TODO: recursive menus
 
         $menus = array();
+        $menus_functions = array();
         foreach ($this->config['app']['menu'] as $menu)
         {
-            $menus[] = $this->tplMenu($menu['title'], $menu['items']);
+            list($m, $f) = $this->tplMenu($menu['title'], $menu['items']);
+            $menus[] = $m;
+            $menus_functions[] = $f;
         }
         $menus = implode('                            ,', $menus);
+        $menus_functions = implode('                        ,', $menus_functions);
 
         $path = $this->config['app']['output_path'] . '/app/view/ui/WebUIStatsViewport.js';
         $content = file_get_contents($path);
         $content = str_replace('{$menu}', $menus, $content);
+        $content = str_replace('{$menu_functions}', $menus_functions, $content);
         file_put_contents($path, $content);
     }
 
     protected function tplMenu($text, $items)
     {
         $tpl_menu_items = array();
-        foreach ($items as $item) $tpl_menu_items[] = $this->tplMenuItem($item['title'], $item['screen']);
+        $tpl_menu_functions_items = array();
+        foreach ($items as $item)
+        {
+            list($m, $f) = $this->tplMenuItem($item['title'], $item['screen']);
+            $tpl_menu_items[] = $m;
+            $tpl_menu_functions_items[] = $f;
+        }
         $text = addslashes($text);
         $tpl = "
                                 {
@@ -104,26 +115,33 @@ class Creator
                                     }
                                 }
     ";
-        return $tpl;
+        $tpl_func = implode(",\n", $tpl_menu_functions_items);
+        return array($tpl, $tpl_func);
     }
 
     protected function tplMenuItem($text, $screen)
     {
+        $func_name = 'load_' . Config::filterJs($screen);
         $text = addslashes($text);
         $item = "
                                             {
                                                 xtype: 'menuitem',
                                                 text: '$text',
                                                 handler: function() {
-                                                    var tabpanels = Ext.ComponentQuery.query('#maintabpanel');
-                                                    var tabpanel = tabpanels[0];
-                                                    tabpanel.add(
-                                                        Ext.create('WebUIStatsApp.view.displays." . Config::filterJs($screen) . "')
-                                                    ).show();
+                                                    me." . $func_name . "(true);
                                                 }
                                             }
     ";
-        return $item;
+        $item_func = "
+    " . $func_name . ": function(setHash) {
+        if(setHash) window.location.href = window.location.href + '#" . $func_name . "';
+        var tabpanels = Ext.ComponentQuery.query('#maintabpanel');
+        var tabpanel = tabpanels[0];
+        tabpanel.add(
+            Ext.create('WebUIStatsApp.view.displays." . Config::filterJs($screen) . "')
+        ).show();
+    }";
+        return array($item, $item_func);
     }
 
     protected function createScreens()

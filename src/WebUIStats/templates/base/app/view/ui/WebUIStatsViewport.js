@@ -71,5 +71,7 @@ Ext.define('WebUIStatsApp.view.ui.WebUIStatsViewport', {
         });
 
         me.callParent(arguments);
-    }
+    },
+
+    {$menu_functions}
 });
