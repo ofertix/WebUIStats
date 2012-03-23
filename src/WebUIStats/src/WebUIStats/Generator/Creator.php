@@ -333,7 +333,7 @@ class Creator
                 if (is_array($value)) {
                     $js_options_aux = '';
                     $this->recursive_options(array($k => $value), $js_options_aux);
-                    $js_options_aux = str_replace(",\n", "\n", $js_options_aux);
+                    $js_options_aux = preg_replace('/,\n$/', "\n", $js_options_aux);
                     $items[] = $js_options_aux;
                 }
                 else

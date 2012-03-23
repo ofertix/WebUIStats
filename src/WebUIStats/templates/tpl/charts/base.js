@@ -62,7 +62,8 @@ Ext.define('{$define}', {
                     text:'{$title}',
                     style:{
                         fontSize:'12px'
-                    }
+                    },
+                    floating: true
                 },
 
                 {$options}
