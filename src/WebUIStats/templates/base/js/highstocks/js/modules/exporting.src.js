@@ -1,5 +1,5 @@
 /**
- * @license Highstock JS v1.0.1 (2011-10-25)
+ * @license Highstock JS v1.1.5 (2012-03-15)
  * Exporting module
  *
  * (c) 2010-2011 Torstein Hønsi
@@ -16,6 +16,7 @@
 var HC = Highcharts,
 	Chart = HC.Chart,
 	addEvent = HC.addEvent,
+	removeEvent = HC.removeEvent,
 	createElement = HC.createElement,
 	discardElement = HC.discardElement,
 	css = HC.css,
@@ -224,14 +225,14 @@ extend(Chart.prototype, {
 				showCheckbox: false,
 				visible: serie.visible
 			});
-	
+
 			if (!seriesOptions.isInternal) { // used for the navigator series that has its own option set
-			
+
 				// remove image markers
 				if (seriesOptions && seriesOptions.marker && /^url\(/.test(seriesOptions.marker.symbol)) {
 					seriesOptions.marker.symbol = 'circle';
 				}
-	
+
 				options.series.push(seriesOptions);
 			}
 		});
@@ -269,9 +270,8 @@ extend(Chart.prototype, {
 			.replace(/jQuery[0-9]+="[^"]+"/g, '')
 			.replace(/isTracker="[^"]+"/g, '')
 			.replace(/url\([^#]+#/g, 'url(#')
-			/*.replace(/<svg /, '<svg xmlns:xlink="http://www.w3.org/1999/xlink" ')
-			.replace(/ href=/, ' xlink:href=')
-			.replace(/preserveAspectRatio="none">/g, 'preserveAspectRatio="none"/>')*/
+			.replace(/<svg /, '<svg xmlns:xlink="http://www.w3.org/1999/xlink" ')
+			.replace(/ href=/g, ' xlink:href=')
 			/* This fails in IE < 8
 			.replace(/([0-9]+)\.([0-9]+)/g, function(s1, s2, s3) { // round off to save weight
 				return s2 +'.'+ s3[0];
@@ -282,6 +282,10 @@ extend(Chart.prototype, {
 			.replace(/&shy;/g,  '\u00AD') // soft hyphen
 
 			// IE specific
+			.replace(/<IMG /g, '<image ')
+			.replace(/height=([^" ]+)/g, 'height="$1"')
+			.replace(/width=([^" ]+)/g, 'width="$1"')
+			.replace(/hc-svg-href="([^"]+)">/g, 'xlink:href="$1"/>')
 			.replace(/id=([^" >]+)/g, 'id="$1"')
 			.replace(/class=([^" ]+)/g, 'class="$1"')
 			.replace(/ transform /g, ' ')
@@ -308,7 +312,7 @@ extend(Chart.prototype, {
 	exportChart: function (options, chartOptions) {
 		var form,
 			chart = this,
-			svg = chart.getSVG(chartOptions);
+			svg = chart.getSVG(merge(chart.options.exporting.chartOptions, chartOptions)); // docs
 
 		// merge the options
 		options = merge(chart.options.exporting, options);
@@ -464,8 +468,13 @@ extend(Chart.prototype, {
 						item.onclick.apply(chart, arguments);
 					};
 
+					// Keep references to menu divs to be able to destroy them
+					chart.exportDivElements.push(div);
 				}
 			});
+
+			// Keep references to menu and innerMenu div to be able to destroy them
+			chart.exportDivElements.push(innerMenu, menu);
 
 			chart.exportMenuWidth = menu.offsetWidth;
 			chart.exportMenuHeight = menu.offsetHeight;
@@ -511,7 +520,14 @@ extend(Chart.prototype, {
 			symbolAttr = {
 				stroke: btnOptions.symbolStroke,
 				fill: btnOptions.symbolFill
-			};
+			},
+			symbolSize = btnOptions.symbolSize || 12;
+
+		// Keeps references to the button elements
+		if (!chart.exportDivElements) {
+			chart.exportDivElements = [];
+			chart.exportSVGElements = [];
+		}
 
 		if (btnOptions.enabled === false) {
 			return;
@@ -588,9 +604,10 @@ extend(Chart.prototype, {
 		// the icon
 		symbol = renderer.symbol(
 				btnOptions.symbol,
-				btnOptions.symbolX,
-				btnOptions.symbolY,
-				(btnOptions.symbolSize || 12) / 2
+				btnOptions.symbolX - (symbolSize / 2),
+				btnOptions.symbolY - (symbolSize / 2),
+				symbolSize,				
+				symbolSize
 			)
 			.align(btnOptions, true)
 			.attr(extend(symbolAttr, {
@@ -598,58 +615,103 @@ extend(Chart.prototype, {
 				zIndex: 20
 			})).add();
 
+		// Keep references to the renderer element so to be able to destroy them later.
+		chart.exportSVGElements.push(box, button, symbol);
+	},
 
+	/**
+	 * Destroy the buttons.
+	 */
+	destroyExport: function () {
+		var i,
+			chart = this,
+			elem;
 
+		// Destroy the extra buttons added
+		for (i = 0; i < chart.exportSVGElements.length; i++) {
+			elem = chart.exportSVGElements[i];
+			// Destroy and null the svg/vml elements
+			elem.onclick = elem.ontouchstart = null;
+			chart.exportSVGElements[i] = elem.destroy();
+		}
+
+		// Destroy the divs for the menu
+		for (i = 0; i < chart.exportDivElements.length; i++) {
+			elem = chart.exportDivElements[i];
+
+			// Remove the event handler
+			removeEvent(elem, 'mouseleave');
+
+			// Remove inline events
+			chart.exportDivElements[i] = elem.onmouseout = elem.onmouseover = elem.ontouchstart = elem.onclick = null;
+
+			// Destroy the div by moving to garbage bin
+			discardElement(elem);
+		}
 	}
 });
 
+/**
+ * Crisp for 1px stroke width, which is default. In the future, consider a smarter,
+ * global function.
+ */
+function crisp(arr) {
+	var i = arr.length;
+	while (i--) {
+		if (typeof arr[i] === 'number') {
+			arr[i] = Math.round(arr[i]) - 0.5;		
+		}
+	}
+	return arr;
+}
+
 // Create the export icon
-HC.Renderer.prototype.symbols.exportIcon = function (x, y, radius) {
-	return [
+HC.Renderer.prototype.symbols.exportIcon = function (x, y, width, height) {
+	return crisp([
 		M, // the disk
-		x - radius, y + radius,
+		x, y + width,
 		L,
-		x + radius, y + radius,
-		x + radius, y + radius * 0.5,
-		x - radius, y + radius * 0.5,
+		x + width, y + height,
+		x + width, y + height * 0.8,
+		x, y + height * 0.8,
 		'Z',
 		M, // the arrow
-		x, y + radius * 0.5,
+		x + width * 0.5, y + height * 0.8,
 		L,
-		x - radius * 0.5, y - radius / 3,
-		x - radius / 6, y - radius / 3,
-		x - radius / 6, y - radius,
-		x + radius / 6, y - radius,
-		x + radius / 6, y - radius / 3,
-		x + radius * 0.5, y - radius / 3,
+		x + width * 0.8, y + height * 0.4,
+		x + width * 0.4, y + height * 0.4,
+		x + width * 0.4, y,
+		x + width * 0.6, y,
+		x + width * 0.6, y + height * 0.4,
+		x + width * 0.2, y + height * 0.4,
 		'Z'
-	];
+	]);
 };
 // Create the print icon
-HC.Renderer.prototype.symbols.printIcon = function (x, y, radius) {
-	return [
+HC.Renderer.prototype.symbols.printIcon = function (x, y, width, height) {
+	return crisp([
 		M, // the printer
-		x - radius, y + radius * 0.5,
+		x, y + height * 0.7,
 		L,
-		x + radius, y + radius * 0.5,
-		x + radius, y - radius / 3,
-		x - radius, y - radius / 3,
+		x + width, y + height * 0.7,
+		x + width, y + height * 0.4,
+		x, y + height * 0.4,
 		'Z',
 		M, // the upper sheet
-		x - radius * 0.5, y - radius / 3,
+		x + width * 0.2, y + height * 0.4,
 		L,
-		x - radius * 0.5, y - radius,
-		x + radius * 0.5, y - radius,
-		x + radius * 0.5, y - radius / 3,
+		x + width * 0.2, y,
+		x + width * 0.8, y,
+		x + width * 0.8, y + height * 0.4,
 		'Z',
 		M, // the lower sheet
-		x - radius * 0.5, y + radius * 0.5,
+		x + width * 0.2, y + height * 0.7,
 		L,
-		x - radius * 0.75, y + radius,
-		x + radius * 0.75, y + radius,
-		x + radius * 0.5, y + radius * 0.5,
+		x, y + height,
+		x + width, y + height,
+		x + width * 0.8, y + height * 0.7,
 		'Z'
-	];
+	]);
 };
 
 
@@ -664,7 +726,11 @@ Chart.prototype.callbacks.push(function (chart) {
 		for (n in buttons) {
 			chart.addButton(buttons[n]);
 		}
+
+		// Destroy the export elements at chart destroy
+		addEvent(chart, 'destroy', chart.destroyExport);
 	}
+
 });
 
 

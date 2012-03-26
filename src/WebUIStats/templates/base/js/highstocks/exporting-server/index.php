@@ -71,12 +71,17 @@ if (isset($typeString)) {
 	// catch error
 	if (!is_file($outfile) || filesize($outfile) < 10) {
 		echo "<pre>$output</pre>";
-		echo "Error while converting SVG";		
+		echo "Error while converting SVG. ";
+		
+		if (strpos($output, 'SVGConverter.error.while.rasterizing.file') !== false) {
+			echo "SVG code for debugging: <hr/>";
+			echo htmlentities($svg);
+		}
 	} 
 	
 	// stream it
 	else {
-		header("Content-Disposition: attachment; filename=$filename.$ext");
+		header("Content-Disposition: attachment; filename=\"$filename.$ext\"");
 		header("Content-Type: $type");
 		echo file_get_contents($outfile);
 	}
@@ -87,7 +92,7 @@ if (isset($typeString)) {
 
 // SVG can be streamed directly back
 } else if ($ext == 'svg') {
-	header("Content-Disposition: attachment; filename=$filename.$ext");
+	header("Content-Disposition: attachment; filename=\"$filename.$ext\"");
 	header("Content-Type: $type");
 	echo $svg;
 	
