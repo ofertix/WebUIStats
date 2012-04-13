@@ -222,7 +222,9 @@ class Creator
                                                     name : 'events',
                                                     data : events,
                                                     shape: 'squarepin'
-                                                }
+                                                },
+                                                false,
+                                                false
                                             );
                                             this.dataEvents = data.events;
 ";

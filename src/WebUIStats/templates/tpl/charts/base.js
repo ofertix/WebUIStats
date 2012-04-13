@@ -23,6 +23,7 @@ Ext.define('{$define}', {
             });
             window.chart = new Highcharts.StockChart({
                 chart:{
+                    animation: false,
                     renderTo:el.body.id,
                     events:{
                         load:function () {
@@ -43,11 +44,15 @@ Ext.define('{$define}', {
                                         var points = item.points;
                                         for (var j in points) {
                                             if(this.series[serie_num].data.length) this.series[serie_num].data[0].remove(false);
-                                            this.series[serie_num].addPoint(points[j], false, false);
+                                            this.series[serie_num].addPoint(points[j], false, false, false);
                                         }
                                     }
 
-                                    if (redraw) this.redraw();
+                                    if (redraw)
+                                    {
+                                        this.redraw();
+                                        this.series[0].show();
+                                    }
 
                                 },
                                 scope:this,
