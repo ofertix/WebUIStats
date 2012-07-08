@@ -4,4 +4,5 @@ web/app
 web/app.js
 web/index.html
 web/js
-
+composer.lock
+vendor/*

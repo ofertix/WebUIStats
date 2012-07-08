@@ -1,0 +1,33 @@
+{
+    "name": "ofertix/web-ui-stats",
+    "description": "Collector is the component in charge of subscribing to the channel where stats and events are published. Message storing policies are determined by matching type or a regexp defined in the config file.",
+    "keywords": ["webuistats","log","logging","monitoring","monitor"],
+    "homepage": "https://github.com/ofertix/WebUIStats",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joan Valduvieco",
+            "email": "joan.valduvieco@ofertix.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Jordi Llonch",
+            "email": "jordi.llonch@ofertix.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "WebUIStats": "src/WebUIStats/src"
+        }
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "videlalvaro/php-amqplib": "dev-master",
+        "pimple/pimple": "1.*",
+        "symfony/class-loader": "2.0.x",
+        "symfony/yaml": "2.0.x",
+        "symfony/console": "2.0.x",
+        "monolog/monolog": "1.0.x"
+    }
+}
